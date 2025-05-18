@@ -52,32 +52,13 @@ MongoDB Compass 是一個官方提供的圖形化管理工具：
 ```javascript
 const { MongoClient } = require('mongodb');
 
-// MongoDB 連接字符串
-const url = 'mongodb://localhost:27017';
-const client = new MongoClient(url);
-
-// 資料庫名稱
-const dbName = 'myproject';
-
-async function main() {
+const connectDB = async () => {
   try {
-    // 連接到 MongoDB 伺服器
-    await client.connect();
-    console.log('成功連接到 MongoDB 伺服器');
-    
-    // 獲取資料庫引用
-    const db = client.db(dbName);
-    
-    // 這裡可以執行資料庫操作
-    
-    return '操作完成';
-  } finally {
-    // 確保客戶端關閉
-    await client.close();
+    const client = new MongoClient(process.env.MONGODB_URI)
+    await client.connect()
+    console.log('MongoDB 連接成功')
+  } catch (err) {
+    console.error(`Error: ${err.message}`)
   }
 }
-
-main()
-  .then(console.log)
-  .catch(console.error);
 ```

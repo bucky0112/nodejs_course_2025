@@ -22,22 +22,23 @@ npm install mongoose
 
 ```javascript
 // configs/db.js
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+const dotenv = require('dotenv')
 
-// 連接到 MongoDB
-mongoose.connect('mongodb://localhost:27017/myapp')
-  .then(() => console.log('成功連接到 MongoDB'))
-  .catch(err => console.error('無法連接到 MongoDB', err));
+dotenv.config()
 
-// 使用 async/await 建立連接
-async function connectToDatabase() {
+const connectDB = async () => {
   try {
-    await mongoose.connect('mongodb://localhost:27017/myapp');
-    console.log('成功連接到 MongoDB');
-  } catch (error) {
-    console.error('無法連接到 MongoDB', error);
+    // 使用你的 MongoDB Atlas 連接字串
+    const conn = await mongoose.connect(process.env.MONGODB_URI)
+
+    console.log(`MongoDB Connected: ${conn.connection.host}`)
+  } catch (err) {
+    console.error(`Error: ${err.message}`)
   }
 }
+
+module.exports = connectDB
 ```
 
 ## 定義 Schema 和模型
@@ -47,10 +48,12 @@ Mongoose 的核心概念是 Schema 和 Model：
 ```javascript
 // models/User.js
 // 定義使用者 Schema
+const mongoose = require('mongoose');
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    require: [true, '請輸入使用者名稱'],
+    required: [true, '請輸入使用者名稱'],
     trim: true,
     unique: true,
     minlength: [3, '使用者名稱至少需要3個字'],
@@ -58,7 +61,7 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    require: [true, '請輸入email'],
+    required: [true, '請輸入email'],
     unique: true,
     match: [
       /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
@@ -108,10 +111,10 @@ module.exports = User;
 // routes/user.js
 const express = require('express')
 const router = express.Router()
+const User = require('../models/User');
 
 router.post('/users', async (req, res) => {
   try {
-    const User = require('../models/User')
     const result = await User.create(req.body)
     res.status(201).json({
       success: true,
@@ -127,7 +130,6 @@ router.post('/users', async (req, res) => {
 
 router.get('/users', async (req, res) => {
   try {
-    const User = require('../models/User')
     const result = await User.find()
     res.status(200).json({
       success: true,
@@ -143,7 +145,6 @@ router.get('/users', async (req, res) => {
 
 router.get('/users/:id', async (req, res) => {
   try {
-    const User = require('../models/User')
     const result = await User.findById(req.params.id)
     res.status(200).json({
       success: true,
@@ -159,7 +160,6 @@ router.get('/users/:id', async (req, res) => {
 
 router.put('/users/:id', async (req, res) => {
   try {
-    const User = require('../models/User')
     const result = await User.findByIdAndUpdate(req.params.id, req.body, { new: true })
     res.status(200).json({
       success: true,
@@ -175,7 +175,6 @@ router.put('/users/:id', async (req, res) => {
 
 router.delete('/users/:id', async (req, res) => {
   try {
-    const User = require('../models/User')
     await User.findByIdAndDelete(req.params.id)
     res.status(200).json({
       success: true,
