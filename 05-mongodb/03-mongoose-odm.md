@@ -211,3 +211,12 @@ module.exports = router
 3. **錯誤處理**
    - 始終使用 try/catch 處理 Promise
    - 針對不同類型的錯誤有特定的處理邏輯
+
+
+CRUD 練習
+
+Todo List
+
+API schema
+- title
+- isCompleted
