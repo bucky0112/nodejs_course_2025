@@ -9,11 +9,11 @@ const handleGoogleLogin = () => {
 };
 
 onMounted(() => {
-  // Check if user is already logged in
+  // 檢查是否已登入
   const checkAuth = async () => {
     try {
       const response = await fetch('http://localhost:3000/auth/check', {
-        credentials: 'include'
+        credentials: 'include' // 包含憑證
       });
       if (response.ok) {
         router.push('/home');

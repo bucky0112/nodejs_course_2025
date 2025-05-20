@@ -7,21 +7,21 @@ const route = useRoute();
 const user = ref(null);
 
 onMounted(async () => {
-  // Check if user data is in URL parameters (from Google OAuth redirect)
+  // 檢查 URL 參數中是不是有包含使用者資料（來自 Google OAuth redirect）
   if (route.query.user) {
     try {
       user.value = JSON.parse(decodeURIComponent(route.query.user));
-      // Clean up the URL
+      // 清除 URL
       router.replace({ path: '/home', query: {} });
     } catch (error) {
-      console.error('Failed to parse user data:', error);
+      console.error('解析使用者資料失敗:', error);
       router.push('/login');
     }
   } else {
-    // If no user data in URL, try to fetch from backend
+    // 如果 URL 中沒有使用者資料，嘗試從後端取得
     try {
       const response = await fetch('http://localhost:3000/auth/user', {
-        credentials: 'include'
+        credentials: 'include' // 包含憑證
       });
       if (response.ok) {
         user.value = await response.json();
@@ -29,7 +29,7 @@ onMounted(async () => {
         router.push('/login');
       }
     } catch (error) {
-      console.error('Failed to fetch user data:', error);
+      console.error('拿不到使用者資料:', error);
       router.push('/login');
     }
   }
