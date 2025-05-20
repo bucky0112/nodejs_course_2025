@@ -9,14 +9,14 @@
 
 ```json
 {
-    "Version": "2025-01-01",
+    "Version": "2012-10-17",
     "Statement": [
         {
             "Sid": "AllowPublicRead",
             "Effect": "Allow",
             "Principal": "*",
             "Action": "s3:GetObject",
-            "Resource": "arn:aws:s3:::imagesaver/*"
+            "Resource": "arn:aws:s3:::imagesaver11/*"
         }
     ]
 }

@@ -9,7 +9,7 @@
 
 需要一些前置作業：
 
-- ASW 帳號
+- AWS 帳號
 - S3 Bucket
 - IAM User
 
