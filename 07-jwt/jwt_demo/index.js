@@ -1,5 +1,5 @@
 const express = require('express')
-const authRouter = require('./auth')
+const authRouter = require('./src/routes/authRoutes')
 
 const app = express()
 app.use(express.json())
