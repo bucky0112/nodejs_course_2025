@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt') // 加密密碼
 const db = require("../config/db")
 const { usersTable } = require("../models/schema")
+const { eq } = require('drizzle-orm')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 
@@ -34,7 +35,7 @@ const useLogin = async (req, res) => {
   try {
     const { username, password } = req.body
 
-    const foundUsers = await db.select().from(users).where(eq(users.username, username))
+    const foundUsers = await db.select().from(usersTable).where(eq(usersTable.username, username))
     const user = foundUsers[0]
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
