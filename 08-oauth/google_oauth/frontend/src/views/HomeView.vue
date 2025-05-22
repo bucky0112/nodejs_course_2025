@@ -25,6 +25,7 @@ onMounted(async () => {
       });
       if (response.ok) {
         user.value = await response.json();
+        console.log(user.value)
       } else {
         router.push('/login');
       }
@@ -33,8 +34,8 @@ onMounted(async () => {
       router.push('/login');
     }
   }
+  console.log(user.value)
 });
-console.log(user.value)
 </script>
 
 <template>
@@ -42,8 +43,8 @@ console.log(user.value)
     <div class="home-content">
       <h1>Welcome to Your Dashboard</h1>
       <div v-if="user" class="user-info">
-        <img :src="user.photos[0].value" alt="Profile" class="profile-picture" />
-        <h2>{{ user.name }}</h2>
+        <img :src="user.profilePicture" alt="Profile" class="profile-picture" />
+        <h2>{{ user.displayName }}</h2>
         <p>{{ user.email }}</p>
       </div>
     </div>
