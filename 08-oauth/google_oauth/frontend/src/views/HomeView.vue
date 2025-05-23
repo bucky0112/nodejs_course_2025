@@ -11,6 +11,8 @@ onMounted(async () => {
   if (route.query.user) {
     try {
       user.value = JSON.parse(decodeURIComponent(route.query.user));
+
+      console.log(user.value)
       // 清除 URL
       router.replace({ path: '/home', query: {} });
     } catch (error) {
@@ -34,7 +36,6 @@ onMounted(async () => {
     }
   }
 });
-console.log(user.value)
 </script>
 
 <template>
@@ -42,8 +43,8 @@ console.log(user.value)
     <div class="home-content">
       <h1>Welcome to Your Dashboard</h1>
       <div v-if="user" class="user-info">
-        <img :src="user.photos[0].value" alt="Profile" class="profile-picture" />
-        <h2>{{ user.name }}</h2>
+        <img :src="user.profilePicture" alt="Profile" class="profile-picture" />
+        <h2>{{ user.displayName }}</h2>
         <p>{{ user.email }}</p>
       </div>
     </div>
